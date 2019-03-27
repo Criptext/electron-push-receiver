@@ -1,6 +1,6 @@
 const { register, listen } = require('push-receiver');
-const { ipcMain } = require('electron');
 const Config = require('electron-config');
+const { ipcMain } = require('electron');
 const {
   START_NOTIFICATION_SERVICE,
   NOTIFICATION_SERVICE_STARTED,
@@ -9,22 +9,17 @@ const {
   TOKEN_UPDATED,
 } = require('./constants');
 
-const config = new Config();
-
-module.exports = {
-  START_NOTIFICATION_SERVICE,
-  NOTIFICATION_SERVICE_STARTED,
-  NOTIFICATION_SERVICE_ERROR,
-  NOTIFICATION_RECEIVED,
-  TOKEN_UPDATED,
-  setup,
-};
+let config;
 
 // To be sure that start is called only once
 let started = false;
 
 // To be call from the main process
-function setup(webContents) {
+function setup({ filename, webContents }) {
+  config = new Config({
+    name: filename || 'config',
+  });
+
   // Will be called by the renderer process
   ipcMain.on(START_NOTIFICATION_SERVICE, async (_, senderId) => {
     // Retrieve saved credentials
@@ -71,3 +66,12 @@ function onNotification(webContents) {
     webContents.send(NOTIFICATION_RECEIVED, notification);
   };
 }
+
+module.exports = {
+  START_NOTIFICATION_SERVICE,
+  NOTIFICATION_SERVICE_STARTED,
+  NOTIFICATION_SERVICE_ERROR,
+  NOTIFICATION_RECEIVED,
+  TOKEN_UPDATED,
+  setup,
+};
