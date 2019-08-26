@@ -27,7 +27,8 @@ function setup({ filename, webContents }) {
     // Retrieve saved senderId
     const savedSenderId = config.get('senderId');
     if (started) {
-      webContents.send(NOTIFICATION_SERVICE_STARTED, (credentials.fcm || {}).token);
+      const fcm = credentials ? credentials.fcm : {};
+      webContents.send(NOTIFICATION_SERVICE_STARTED, ( fcm || {}).token);
       return;
     }
     started = true;

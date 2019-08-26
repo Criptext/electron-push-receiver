@@ -1,6 +1,6 @@
 {
   "name": "@criptext/electron-push-receiver",
-  "version": "2.1.2",
+  "version": "2.1.2-rc1",
   "description": "A module to receive FCM notifications in electron",
   "main": "src/index.js",
   "repository": "https://github.com/MatthieuLemoine/electron-push-receiver",
